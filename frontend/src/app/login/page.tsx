@@ -1,9 +1,13 @@
 'use client';
 
+import { Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import OAuthButtons from '@/components/OAuthButtons';
 
-export default function LoginPage() {
+/**
+ * Login page content component.
+ */
+function LoginContent() {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get('callbackUrl') || '/dashboard';
   const error = searchParams.get('error');
@@ -13,7 +17,7 @@ export default function LoginPage() {
       <div className="max-w-md w-full space-y-8">
         <div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Sign in to new-map
+            Sign in to Your Project
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
             Use your account from the central auth server
@@ -35,5 +39,22 @@ export default function LoginPage() {
         </p>
       </div>
     </div>
+  );
+}
+
+/**
+ * Login page with OAuth buttons.
+ */
+export default function LoginPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center bg-gray-50">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900"></div>
+        </div>
+      }
+    >
+      <LoginContent />
+    </Suspense>
   );
 }
