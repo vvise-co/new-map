@@ -131,7 +131,8 @@ environment=NODE_ENV="production",PORT="3000",HOSTNAME="0.0.0.0"
 EOF
 
 # Health check using the configured port
-HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
+# Increased start-period to 120s for Java startup time
+HEALTHCHECK --interval=30s --timeout=10s --start-period=120s --retries=3 \
     CMD curl -f http://localhost:${PORT:-8000}/health || exit 1
 
 # Cloud platforms use PORT env var, default to 8000
