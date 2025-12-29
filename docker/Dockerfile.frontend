@@ -1,5 +1,5 @@
 # Multi-stage Dockerfile for Next.js frontend client
-# Usage: docker build -f Dockerfile.frontend -t new-map-frontend .
+# Usage: docker build -f Dockerfile.frontend -t your-project-frontend .
 
 # Dependencies stage
 FROM node:20-alpine AS deps

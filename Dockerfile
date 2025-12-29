@@ -3,8 +3,8 @@
 # Frontend accessible at root (/), Backend at /api/**
 # Port is configurable via PORT env var (default: 8000)
 #
-# Build: docker build -t new-map .
-# Run:   docker run -p 8000:8000 --env-file .env new-map
+# Build: docker build -t your-project .
+# Run:   docker run -p 8000:8000 --env-file .env your-project
 
 # ============================================
 # BACKEND BUILD STAGE

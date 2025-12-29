@@ -1,5 +1,5 @@
 # Multi-stage Dockerfile for Spring Boot backend client
-# Usage: docker build -f Dockerfile.backend -t new-map-backend .
+# Usage: docker build -f Dockerfile.backend -t your-project-backend .
 
 # Build stage
 FROM eclipse-temurin:21-jdk-alpine AS builder
