@@ -3,7 +3,7 @@ node_modules/
 target/
 
 # Build output
-.next/
+dist/
 *.jar
 
 # Environment
