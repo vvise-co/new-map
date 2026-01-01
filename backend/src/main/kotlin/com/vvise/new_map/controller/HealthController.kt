@@ -1,4 +1,4 @@
-package com.vvise.template.controller
+package com.vvise.new_map.controller
 
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController

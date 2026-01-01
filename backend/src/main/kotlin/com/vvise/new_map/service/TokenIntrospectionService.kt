@@ -1,9 +1,9 @@
-package com.vvise.template.service
+package com.vvise.new_map.service
 
-import com.vvise.template.config.AuthProperties
-import com.vvise.template.config.CacheConfig
-import com.vvise.template.dto.TokenIntrospectionResponse
-import com.vvise.template.security.AuthenticatedUser
+import com.vvise.new_map.config.AuthProperties
+import com.vvise.new_map.config.CacheConfig
+import com.vvise.new_map.dto.TokenIntrospectionResponse
+import com.vvise.new_map.security.AuthenticatedUser
 import org.slf4j.LoggerFactory
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.http.HttpEntity

@@ -1,6 +1,6 @@
-package com.vvise.template.config
+package com.vvise.new_map.config
 
-import com.vvise.template.security.JwtAuthenticationFilter
+import com.vvise.new_map.security.JwtAuthenticationFilter
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

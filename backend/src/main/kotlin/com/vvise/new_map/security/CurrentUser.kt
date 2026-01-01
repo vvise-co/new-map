@@ -1,4 +1,4 @@
-package com.vvise.template.security
+package com.vvise.new_map.security
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 

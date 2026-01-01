@@ -1,4 +1,4 @@
-package com.vvise.template.config
+package com.vvise.new_map.config
 
 import com.github.benmanes.caffeine.cache.Caffeine
 import org.springframework.cache.CacheManager

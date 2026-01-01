@@ -1,4 +1,4 @@
-package com.vvise.template.controller
+package com.vvise.new_map.controller
 
 import com.vvise.template.security.AuthenticatedUser
 import com.vvise.template.security.CurrentUser
@@ -33,10 +33,11 @@ class ExampleController {
     @GetMapping("/me")
     fun getCurrentUser(@CurrentUser user: AuthenticatedUser): Map<String, Any> {
         return mapOf(
-            "id" to user.id,
+            "sub" to user.sub,
             "email" to user.email,
             "name" to user.name,
-            "roles" to user.roles
+            "roles" to user.roles,
+            "picture" to user.picture
         )
     }
 
@@ -58,9 +59,10 @@ class ExampleController {
     @GetMapping("/profile")
     fun getProfile(@CurrentUser user: AuthenticatedUser): Map<String, Any> {
         val profile = mutableMapOf<String, Any>(
-            "id" to user.id,
+            "sub" to user.sub,
             "email" to user.email,
-            "name" to user.name
+            "name" to user.name,
+            "picture" to (user.picture ?: "")
         )
 
         // Add admin-specific data if user is admin
