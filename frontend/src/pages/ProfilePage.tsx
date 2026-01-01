@@ -66,7 +66,7 @@ export default function ProfilePage() {
                 <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4">
                   <dt className="text-sm text-gray-500 dark:text-gray-400">Auth Provider</dt>
                   <dd className="mt-1 text-gray-900 dark:text-gray-100 font-medium capitalize">
-                    {user?.provider.toLowerCase()}
+                    {user?.provider?.toLowerCase()}
                   </dd>
                 </div>
                 <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4">
@@ -81,7 +81,7 @@ export default function ProfilePage() {
             <div>
               <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Roles</h3>
               <div className="flex flex-wrap gap-2">
-                {user?.roles.map((role) => (
+                {user?.roles?.map((role) => (
                   <span
                     key={role}
                     className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
