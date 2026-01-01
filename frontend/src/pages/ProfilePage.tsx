@@ -30,9 +30,9 @@ export default function ProfilePage() {
           {/* Profile header */}
           <div className="bg-gradient-to-r from-primary-500 to-primary-600 px-6 py-8">
             <div className="flex items-center gap-4">
-              {user?.imageUrl ? (
+              {user?.picture ? (
                 <img
-                  src={user.imageUrl}
+                  src={user.picture}
                   alt={user.name}
                   className="w-20 h-20 rounded-full border-4 border-white shadow-lg"
                 />
@@ -70,9 +70,9 @@ export default function ProfilePage() {
                   </dd>
                 </div>
                 <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4">
-                  <dt className="text-sm text-gray-500 dark:text-gray-400">Account Created</dt>
+                  <dt className="text-sm text-gray-500 dark:text-gray-400">Email Verified</dt>
                   <dd className="mt-1 text-gray-900 dark:text-gray-100 font-medium">
-                    {user?.createdAt ? new Date(user.createdAt).toLocaleDateString() : 'N/A'}
+                    {user?.email_verified ? 'Yes' : 'No'}
                   </dd>
                 </div>
               </dl>

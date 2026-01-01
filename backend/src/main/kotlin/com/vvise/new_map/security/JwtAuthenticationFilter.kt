@@ -1,6 +1,6 @@
-package com.vvise.new_map.security
+package com.vvise.template.security
 
-import com.vvise.new_map.service.TokenIntrospectionService
+import com.vvise.template.service.TokenIntrospectionService
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse

@@ -25,7 +25,7 @@ spring:
     type: caffeine
 
 # Auth Server Configuration
-# Token validation via introspection - no JWT_SECRET needed!
+# Token validation via introspection
 auth:
   server:
     # URL of the auth server

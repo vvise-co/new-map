@@ -6,36 +6,36 @@ Blueprint templates for creating new projects that use the central authenticatio
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                     Central Auth Server                          │
-│                    (Auth Project)                                │
+│                     Central Auth Server                         │
+│                    (Auth Project)                               │
 │  ┌─────────────┐  ┌─────────────┐  ┌──────────────────────────┐ │
 │  │   OAuth2    │  │    JWT      │  │    Token Introspection   │ │
 │  │  Providers  │  │   Tokens    │  │    /api/auth/introspect  │ │
 │  │ Google/GH/MS│  │   Cookies   │  │                          │ │
 │  └─────────────┘  └─────────────┘  └──────────────────────────┘ │
-│                         ▲                                        │
-│                         │ Token Introspection (no shared secret) │
-└─────────────────────────┼───────────────────────────────────────┘
-                          │
-        ┌─────────────────┼─────────────────┐
-        │                 │                 │
-        ▼                 ▼                 ▼
-┌───────────────┐ ┌───────────────┐ ┌───────────────┐
-│  Map Animator │ │    Charts     │ │  New Project  │
-│    Project    │ │    Project    │ │    (Future)   │
-│               │ │               │ │               │
-│ ┌───────────┐ │ │ ┌───────────┐ │ │ ┌───────────┐ │
-│ │  React    │ │ │ │  React    │ │ │ │  React    │ │
-│ │   SPA     │ │ │ │   SPA     │ │ │ │   SPA     │ │
-│ └───────────┘ │ │ └───────────┘ │ │ └───────────┘ │
-│       ▲       │ │       ▲       │ │       ▲       │
-│       │       │ │       │       │ │       │       │
-│ ┌───────────┐ │ │ ┌───────────┐ │ │ ┌───────────┐ │
-│ │  Backend  │ │ │ │  Backend  │ │ │ │  Backend  │ │
-│ │Spring Boot│ │ │ │Spring Boot│ │ │ │Spring Boot│ │
-│ │(serves SPA)│ │ │(serves SPA)│ │ │(serves SPA)│ │
-│ └───────────┘ │ │ └───────────┘ │ │ └───────────┘ │
-└───────────────┘ └───────────────┘ └───────────────┘
+│                          ▲                                      │
+│                          │Token Introspection (no shared secret)│
+└──────────────────────────┼──────────────────────────────────────┘
+                           │
+        ┌──────────────────┼──────────────────┐
+        │                  │                  │
+        ▼                  ▼                  ▼
+┌────────────────┐ ┌────────────────┐ ┌────────────────┐
+│  Map Animator  │ │    Charts      │ │  New Project   │
+│    Project     │ │    Project     │ │    (Future)    │
+│                │ │                │ │                │
+│ ┌────────────┐ │ │ ┌────────────┐ │ │ ┌────────────┐ │
+│ │  React     │ │ │ │  React     │ │ │ │  React     │ │
+│ │   SPA      │ │ │ │   SPA      │ │ │ │   SPA      │ │
+│ └────────────┘ │ │ └────────────┘ │ │ └────────────┘ │
+│        ▲       │ │        ▲       │ │        ▲       │
+│        │       │ │        │       │ │        │       │
+│ ┌────────────┐ │ │ ┌────────────┐ │ │ ┌────────────┐ │
+│ │  Backend   │ │ │ │  Backend   │ │ │ │  Backend   │ │
+│ │Spring Boot │ │ │ │Spring Boot │ │ │ │Spring Boot │ │
+│ │(serves SPA)│ │ │ │(serves SPA)│ │ │ │(serves SPA)│ │
+│ └────────────┘ │ │ └────────────┘ │ │ └────────────┘ │
+└────────────────┘ └────────────────┘ └────────────────┘
 ```
 
 ## Token Introspection
@@ -62,77 +62,26 @@ Response (if valid):
 - Token revocation works immediately
 - Results are cached (5 min default) to minimize network calls
 
-## Quick Start
-
-### Create a new project
-
-```bash
-cd templates/scripts
-./init-project.sh my-app ~/Projects/@vvise-co/my-app
-```
-
-This creates a Koyeb-ready project with:
-- Root `Dockerfile` for unified deployment (single container)
-- Spring Boot backend that serves React SPA static files
-- React SPA frontend (Vite + React Router)
-- Token introspection with Caffeine caching
-- No nginx required!
-
-### Update an existing project
-
-If you have an existing project created from this template and want to update it with the latest changes:
-
-```bash
-cd templates/scripts
-./update-project.sh ~/Projects/@vvise-co/my-app
-```
-
-Update specific components only:
-
-```bash
-# Update everything
-./update-project.sh ~/Projects/@vvise-co/my-app --all
-
-# Update Docker files only (Dockerfile, docker-compose)
-./update-project.sh ~/Projects/@vvise-co/my-app --docker
-
-# Update Maven wrapper only (fixes "mvnw not found" errors)
-./update-project.sh ~/Projects/@vvise-co/my-app --mvnw
-
-# Update multiple components
-./update-project.sh ~/Projects/@vvise-co/my-app --docker --readme --env
-```
-
-Available options:
-- `--all` - Update everything (default if no options specified)
-- `--docker` - Update Dockerfile, docker-compose
-- `--readme` - Update README.md
-- `--env` - Update .env.example files
-- `--mvnw` - Update Maven wrapper (mvnw and .mvn)
-- `--frontend` - Update frontend pages and components
-- `--backend` - Update backend source files (security, config, controller)
-- `--scripts` - Update shared lib files (api.ts, types.ts)
-
 ## Directory Structure
 
 ```
 templates/
 ├── Dockerfile               # Unified Dockerfile for Koyeb (single container)
-├── .env.example             # Unified environment template
+├── .env.example             # Unified environment
 ├── README.md                # This documentation
 │
-├── backend-client/          # Spring Boot backend template
+├── backend/                 # Spring Boot backend
 │   ├── src/main/kotlin/
 │   ├── pom.xml
 │   ├── mvnw                 # Maven wrapper
 │   ├── .mvn/                # Maven wrapper config
 │   └── .env.example
 │
-├── frontend-client/         # React SPA frontend template (Vite)
+├── frontend/                # React SPA frontend (Vite)
 │   ├── src/
 │   │   ├── App.tsx
 │   │   ├── main.tsx
-│   │   ├── pages/           # LoginPage, DashboardPage, ProfilePage, etc.
+│   │   ├── pages/           # LoginPage, etc.
 │   │   ├── components/      # ProtectedRoute, UserMenu, OAuthButtons
 │   │   ├── context/         # AuthContext
 │   │   └── lib/             # api.ts, types.ts
@@ -141,14 +90,11 @@ templates/
 │   ├── tailwind.config.ts
 │   └── .env.example
 │
-├── docker/                  # Development Docker files
-│   ├── Dockerfile.backend
-│   ├── Dockerfile.frontend
-│   └── docker-compose.yml
-│
-└── scripts/
-    ├── init-project.sh      # Project initializer
-    └── update-project.sh    # Update existing projects
+└── docker/                  # Development Docker files
+    ├── Dockerfile.backend
+    ├── Dockerfile.frontend
+    └── docker-compose.yml
+
 ```
 
 ---
@@ -167,7 +113,6 @@ Run your entire project (frontend + backend) in a single container, mimicking th
 #### Step 1: Create your `.env` file
 
 ```bash
-cd your-project
 cp .env.example .env
 ```
 
@@ -235,18 +180,7 @@ Run frontend and backend as separate processes for faster development iteration 
 - PostgreSQL database running
 - Auth server running (locally or deployed)
 
-#### Step 1: Start the Auth Server
-
-If running locally:
-```bash
-cd /path/to/auth
-docker-compose up
-# Auth server runs on http://localhost:8081
-```
-
-Or use a deployed auth server (e.g., `https://your-auth-server.koyeb.app`).
-
-#### Step 2: Configure Backend Environment
+#### Step 1: Configure Backend Environment
 
 ```bash
 cd your-project/backend
@@ -279,7 +213,7 @@ AUTH_SERVER_URL=http://localhost:8081
 CORS_ALLOWED_ORIGINS=http://localhost:5173
 ```
 
-#### Step 3: Start the Backend
+#### Step 2: Start the Backend
 
 ```bash
 cd your-project/backend
@@ -287,7 +221,7 @@ cd your-project/backend
 # Backend runs on http://localhost:8080
 ```
 
-#### Step 4: Configure Frontend Environment
+#### Step 3: Configure Frontend Environment
 
 ```bash
 cd your-project/frontend
@@ -305,7 +239,7 @@ Edit `frontend/.env`:
 VITE_AUTH_SERVER_URL=http://localhost:8081
 ```
 
-#### Step 5: Start the Frontend
+#### Step 4: Start the Frontend
 
 ```bash
 cd your-project/frontend
@@ -314,7 +248,7 @@ npm run dev
 # Frontend runs on http://localhost:5173
 ```
 
-#### Step 6: Access your app
+#### Step 5: Access your app
 
 - Frontend: http://localhost:5173
 - Backend API: http://localhost:8080/api

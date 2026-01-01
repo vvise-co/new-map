@@ -1,9 +1,9 @@
-package com.vvise.new_map.service
+package com.vvise.template.service
 
-import com.vvise.new_map.config.AuthProperties
-import com.vvise.new_map.config.CacheConfig
-import com.vvise.new_map.dto.TokenIntrospectionResponse
-import com.vvise.new_map.security.AuthenticatedUser
+import com.vvise.template.config.AuthProperties
+import com.vvise.template.config.CacheConfig
+import com.vvise.template.dto.TokenIntrospectionResponse
+import com.vvise.template.security.AuthenticatedUser
 import org.slf4j.LoggerFactory
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.http.HttpEntity
@@ -67,15 +67,18 @@ class TokenIntrospectionService(
             return null
         }
 
-        val userId = response.sub?.toLongOrNull() ?: return null
+        val sub = response.sub ?: return null
         val email = response.email ?: return null
 
         return AuthenticatedUser(
-            id = userId,
+            sub = sub,
             email = email,
             name = response.name ?: email,
             roles = response.getRolesList(),
-            imageUrl = response.imageUrl
+            picture = response.picture,
+            emailVerified = response.emailVerified,
+            givenName = response.givenName,
+            familyName = response.familyName
         )
     }
 }

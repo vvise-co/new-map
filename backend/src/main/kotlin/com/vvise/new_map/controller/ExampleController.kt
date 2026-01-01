@@ -1,7 +1,7 @@
-package com.vvise.new_map.controller
+package com.vvise.template.controller
 
-import com.vvise.new_map.security.AuthenticatedUser
-import com.vvise.new_map.security.CurrentUser
+import com.vvise.template.security.AuthenticatedUser
+import com.vvise.template.security.CurrentUser
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping

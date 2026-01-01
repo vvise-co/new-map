@@ -1,4 +1,4 @@
-package com.vvise.new_map.config
+package com.vvise.template.config
 
 import org.springframework.boot.context.properties.ConfigurationProperties
 
