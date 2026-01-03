@@ -7,7 +7,7 @@ import jakarta.persistence.*
     name = "team_projects",
     indexes = [Index(name = "idx_team_projects_team", columnList = "team_id")],
     uniqueConstraints = [UniqueConstraint(
-        name = "uk_team_members_team_user", columnNames = ["team_id"]
+        name = "uk_team_projects_team", columnNames = ["team_id"]
     )]
 )
 class Project(
