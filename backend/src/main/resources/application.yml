@@ -27,6 +27,9 @@ spring:
     baseline-version: "0"
     locations: classpath:db/migration
     validate-on-migrate: true
+    # For fresh installs or schema reset, set FLYWAY_CLEAN_DISABLED=false and FLYWAY_CLEAN_ON_VALIDATION_ERROR=true
+    clean-disabled: ${FLYWAY_CLEAN_DISABLED:false}
+    clean-on-validation-error: ${FLYWAY_CLEAN_ON_VALIDATION_ERROR:true}
 
   # Enable caching for token introspection
   cache:

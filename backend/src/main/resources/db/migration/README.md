@@ -2,6 +2,22 @@
 
 This project uses [Flyway](https://flywaydb.org/) for database migrations.
 
+## Production Settings
+
+**IMPORTANT**: In production environments, always set these environment variables to prevent accidental data loss:
+
+```bash
+FLYWAY_CLEAN_DISABLED=true
+FLYWAY_CLEAN_ON_VALIDATION_ERROR=false
+```
+
+| Variable | Production | Development | Description |
+|----------|------------|-------------|-------------|
+| `FLYWAY_CLEAN_DISABLED` | `true` | `false` | Prevents `flyway clean` from wiping your database |
+| `FLYWAY_CLEAN_ON_VALIDATION_ERROR` | `false` | `true` | Prevents auto-clean when migration checksums don't match |
+
+These are already configured in `docker-compose.yml` for local development safety.
+
 ## How It Works
 
 - Migrations are SQL files in `src/main/resources/db/migration/`
