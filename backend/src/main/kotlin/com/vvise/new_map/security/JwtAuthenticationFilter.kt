@@ -34,9 +34,11 @@ class JwtAuthenticationFilter(
     ) {
         try {
             val token = extractToken(request)
+            logger.debug("Processing request to ${request.requestURI}, token present: ${token != null}")
 
             if (token != null) {
                 val user = tokenIntrospectionService.validateAndGetUser(token)
+                logger.debug("User from introspection: ${user?.sub}, ${user?.email}")
 
                 if (user != null) {
                     val authentication = UsernamePasswordAuthenticationToken(
@@ -48,7 +50,12 @@ class JwtAuthenticationFilter(
                     }
 
                     SecurityContextHolder.getContext().authentication = authentication
+                    logger.debug("Authentication set for user: ${user.sub}, authorities: ${user.authorities}")
+                } else {
+                    logger.warn("User is null after introspection for request to ${request.requestURI}")
                 }
+            } else {
+                logger.debug("No token found for request to ${request.requestURI}")
             }
         } catch (ex: Exception) {
             logger.error("Could not set user authentication in security context", ex)

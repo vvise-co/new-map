@@ -55,4 +55,5 @@ logging:
   level:
     root: INFO
     com.vvise: DEBUG
-    org.springframework.security: INFO
+    org.springframework.security: DEBUG
+    org.springframework.web: DEBUG
