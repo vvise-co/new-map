@@ -27,8 +27,15 @@ class CorsConfig {
         val configuration = CorsConfiguration().apply {
             allowedOrigins = this@CorsConfig.allowedOrigins.split(",").map { it.trim() }
             allowedMethods = this@CorsConfig.allowedMethods.split(",").map { it.trim() }
-            allowedHeaders = listOf(this@CorsConfig.allowedHeaders)
+            // Handle "*" for all headers or parse comma-separated list
+            allowedHeaders = if (this@CorsConfig.allowedHeaders == "*") {
+                listOf("*")
+            } else {
+                this@CorsConfig.allowedHeaders.split(",").map { it.trim() }
+            }
             allowCredentials = this@CorsConfig.allowCredentials
+            // Expose Authorization header to frontend
+            exposedHeaders = listOf("Authorization")
         }
 
         return UrlBasedCorsConfigurationSource().apply {
