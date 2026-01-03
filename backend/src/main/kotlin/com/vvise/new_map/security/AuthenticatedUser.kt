@@ -29,7 +29,11 @@ data class AuthenticatedUser(
 ) : UserDetails {
 
     override fun getAuthorities(): Collection<GrantedAuthority> {
-        return roles.map { SimpleGrantedAuthority("ROLE_$it") }
+        return roles.map { role ->
+            // Don't double-prefix if role already starts with ROLE_
+            val authority = if (role.startsWith("ROLE_")) role else "ROLE_$role"
+            SimpleGrantedAuthority(authority)
+        }
     }
 
     override fun getPassword(): String? = null
