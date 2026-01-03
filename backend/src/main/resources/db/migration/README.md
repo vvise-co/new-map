@@ -4,19 +4,21 @@ This project uses [Flyway](https://flywaydb.org/) for database migrations.
 
 ## Production Settings
 
-**IMPORTANT**: In production environments, always set these environment variables to prevent accidental data loss:
+**IMPORTANT**: In production environments, always set this environment variable to prevent accidental data loss:
 
 ```bash
 FLYWAY_CLEAN_DISABLED=true
-FLYWAY_CLEAN_ON_VALIDATION_ERROR=false
 ```
 
 | Variable | Production | Development | Description |
 |----------|------------|-------------|-------------|
 | `FLYWAY_CLEAN_DISABLED` | `true` | `false` | Prevents `flyway clean` from wiping your database |
-| `FLYWAY_CLEAN_ON_VALIDATION_ERROR` | `false` | `true` | Prevents auto-clean when migration checksums don't match |
 
-These are already configured in `docker-compose.yml` for local development safety.
+This is already configured in `docker-compose.yml` for local development safety.
+
+**Note**: If you have migration checksum mismatches in development, you can either:
+1. Drop the database and let Flyway recreate it
+2. Run `./mvnw flyway:repair` to fix the checksum in flyway_schema_history
 
 ## How It Works
 

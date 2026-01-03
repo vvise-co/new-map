@@ -36,9 +36,8 @@ services:
       DATABASE_PASSWORD: postgres
       AUTH_SERVER_URL: http://host.docker.internal:8081
       CORS_ALLOWED_ORIGINS: http://localhost:3001
-      # Flyway settings - IMPORTANT: Keep these true in production to prevent data loss
+      # Flyway settings - IMPORTANT: Keep this true in production to prevent data loss
       FLYWAY_CLEAN_DISABLED: "true"
-      FLYWAY_CLEAN_ON_VALIDATION_ERROR: "false"
     ports:
       - "8080:8080"
     depends_on:
