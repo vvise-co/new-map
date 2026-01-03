@@ -6,52 +6,26 @@ import com.vvise.new_map.security.AuthenticatedUser
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.domain.Specification
-import java.util.UUID
+import java.util.*
 
 abstract class TeamOwnedDataAccess<T : TeamOwnedEntity>(
     private val teamOwnedRepository: TeamOwnedRepository<T>
 ) : BaseDataAccess<T>(teamOwnedRepository) {
 
-    fun save(entity: T, team: Team, user: AuthenticatedUser): T {
+    fun save(entity: T, team: Team): T {
         if (entity.id == null) {
             entity.team = team
-            entity.createdBy = user.sub
         }
-        entity.updatedBy = user.sub
         return repository.save(entity)
     }
 
-    fun saveAll(entities: List<T>, team: Team, user: AuthenticatedUser): List<T> {
+    fun saveAll(entities: List<T>, team: Team): List<T> {
         entities.forEach { entity ->
             if (entity.id == null) {
                 entity.team = team
-                entity.createdBy = user.sub
             }
-            entity.updatedBy = user.sub
         }
         return repository.saveAll(entities)
-    }
-
-    fun delete(id: UUID, user: AuthenticatedUser): Boolean {
-        val entity = repository.findByIdAndDeletedFalse(id) ?: return false
-        entity.updatedBy = user.sub
-        entity.softDelete()
-        repository.save(entity)
-        return true
-    }
-
-    fun delete(entity: T, user: AuthenticatedUser): Boolean {
-        entity.updatedBy = user.sub
-        entity.softDelete()
-        repository.save(entity)
-        return true
-    }
-
-    fun restore(id: UUID, user: AuthenticatedUser): T? {
-        val entity = repository.findById(id).orElse(null) ?: return null
-        entity.updatedBy = user.sub
-        entity.restore()
-        return repository.save(entity)
     }
 
     // Team-based queries
