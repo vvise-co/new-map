@@ -34,6 +34,9 @@ class TokenIntrospectionService(
      */
     @Cacheable(value = [CacheConfig.TOKEN_CACHE], key = "#token", unless = "#result == null || !#result.active")
     fun introspect(token: String): TokenIntrospectionResponse? {
+        val introspectUrl = "${authProperties.authServerUrl}/api/auth/introspect"
+        logger.debug("Introspecting token with auth server at: $introspectUrl")
+
         return try {
             val headers = HttpHeaders().apply {
                 contentType = MediaType.APPLICATION_JSON
@@ -42,14 +45,16 @@ class TokenIntrospectionService(
             val entity = HttpEntity(body, headers)
 
             val response = restTemplate.postForEntity(
-                "${authProperties.authServerUrl}/api/auth/introspect",
+                introspectUrl,
                 entity,
                 TokenIntrospectionResponse::class.java
             )
 
-            response.body
+            val result = response.body
+            logger.debug("Introspection result: active=${result?.active}, sub=${result?.sub}")
+            result
         } catch (ex: Exception) {
-            logger.error("Failed to introspect token with auth server: ${ex.message}")
+            logger.error("Failed to introspect token with auth server at $introspectUrl: ${ex.message}", ex)
             null
         }
     }
