@@ -37,6 +37,9 @@ class SecurityConfig(
                     .requestMatchers("/login", "/auth/callback").permitAll()
                     .requestMatchers("/dashboard", "/dashboard/**").permitAll()
                     .requestMatchers("/profile", "/profile/**").permitAll()
+                    .requestMatchers("/invite", "/invite/**").permitAll()
+                    .requestMatchers("/register-team").permitAll()
+                    .requestMatchers("/team", "/team/**").permitAll()
                     // Health endpoints
                     .requestMatchers("/health", "/actuator/health").permitAll()
                     // Public API endpoints

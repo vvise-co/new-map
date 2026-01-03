@@ -28,7 +28,10 @@ class SpaController {
             "/dashboard/**",
             "/profile",
             "/profile/**",
-            "/auth/callback"
+            "/auth/callback",
+            "/invite/**",
+            "/register-team",
+            "/team/**"
         ]
     )
     fun forwardToIndex(): String {

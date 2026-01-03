@@ -31,6 +31,14 @@ export default function AuthCallbackPage() {
         // Refresh user data
         await refreshUser();
 
+        // Check for pending invite
+        const pendingInvite = sessionStorage.getItem('pending_invite');
+        if (pendingInvite) {
+          sessionStorage.removeItem('pending_invite');
+          navigate(`/invite/${pendingInvite}`, { replace: true });
+          return;
+        }
+
         // Clean URL by removing tokens
         navigate('/dashboard', { replace: true });
       } catch {

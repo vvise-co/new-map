@@ -72,3 +72,76 @@ export interface ApiError {
   message: string;
   status: number;
 }
+
+// Team types
+export type TeamRole = 'OWNER' | 'ADMIN' | 'MEMBER' | 'VIEWER';
+
+export interface Team {
+  id: string;
+  name: string;
+  description?: string;
+  created_at: string;
+  updated_at: string;
+  member_count?: number;
+  current_user_role?: TeamRole;
+}
+
+export interface TeamMember {
+  id: string;
+  user_id: string;
+  user_sub: string;
+  user_name: string;
+  user_email: string;
+  role: TeamRole;
+  joined_at: string;
+}
+
+export interface TeamWithMembers {
+  team: Team;
+  members: TeamMember[];
+}
+
+export interface CreateTeamRequest {
+  name: string;
+  description?: string;
+}
+
+export interface CreateTeamResponse {
+  team: Team;
+  membership: TeamMember;
+}
+
+// Invitation types
+export interface Invitation {
+  id: string;
+  token: string;
+  team_id: string;
+  team_name: string;
+  invite_link: string;
+  expires_at: string;
+  created_at: string;
+  created_by_name: string;
+  is_expired: boolean;
+  is_used: boolean;
+  used_at?: string;
+  used_by_name?: string;
+}
+
+export interface InvitationInfo {
+  team_name: string;
+  team_description?: string;
+  inviter_name: string;
+  expires_at: string;
+  is_valid: boolean;
+}
+
+export interface CreateInvitationRequest {
+  team_id: string;
+  expires_in_days?: number;
+}
+
+export interface AcceptInvitationResponse {
+  success: boolean;
+  team: Team;
+  membership: TeamMember;
+}
