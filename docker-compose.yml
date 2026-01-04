@@ -36,6 +36,8 @@ services:
       DATABASE_PASSWORD: postgres
       AUTH_SERVER_URL: http://host.docker.internal:8081
       CORS_ALLOWED_ORIGINS: http://localhost:3001
+      # Base URL for generating links (e.g., invitation links)
+      APP_BASE_URL: http://localhost:3001
       # Flyway settings - IMPORTANT: Keep this true in production to prevent data loss
       FLYWAY_CLEAN_DISABLED: "true"
     ports:

@@ -34,6 +34,11 @@ spring:
   cache:
     type: caffeine
 
+# Application Configuration
+app:
+  # Base URL for generating links (e.g., invitation links)
+  base-url: ${APP_BASE_URL:http://localhost:5173}
+
 # Auth Server Configuration
 # Token validation via introspection
 auth:
