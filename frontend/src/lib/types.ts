@@ -145,3 +145,19 @@ export interface AcceptInvitationResponse {
   team: Team;
   membership: TeamMember;
 }
+
+// Settings types
+export type SettingsScope = 'PROJECT' | 'TEAM' | 'USER';
+
+export interface Settings {
+  id: string;
+  scope: SettingsScope;
+  scope_id: string;
+  data: Record<string, unknown>;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface PatchSettingsRequest {
+  data: Record<string, unknown>;
+}

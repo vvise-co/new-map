@@ -138,6 +138,13 @@ class ApiClient {
   async delete<T>(endpoint: string): Promise<T> {
     return this.fetch<T>(endpoint, { method: 'DELETE' });
   }
+
+  async patch<T>(endpoint: string, data?: unknown): Promise<T> {
+    return this.fetch<T>(endpoint, {
+      method: 'PATCH',
+      body: data ? JSON.stringify(data) : undefined,
+    });
+  }
 }
 
 // API client for this app's backend
