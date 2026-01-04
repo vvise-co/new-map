@@ -33,6 +33,7 @@ class SpaController {
             "/auth/callback",
             "/invite/**",
             "/register-team",
+            "/team",
             "/team/**"
         ]
     )
