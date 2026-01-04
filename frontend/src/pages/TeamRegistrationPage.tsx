@@ -1,6 +1,6 @@
 import { useState, FormEvent } from 'react';
-import { useNavigate, Navigate } from 'react-router-dom';
-import { Users } from 'lucide-react';
+import { useNavigate, Link } from 'react-router-dom';
+import { Users, ArrowLeft } from 'lucide-react';
 import { createTeam } from '@/lib/teamApi';
 import { useTeam } from '@/context/TeamContext';
 
@@ -37,21 +37,29 @@ export default function TeamRegistrationPage() {
     );
   }
 
-  // If user already has teams, redirect to dashboard
-  if (hasTeam) {
-    return <Navigate to="/dashboard" replace />;
-  }
-
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 px-4">
       <div className="max-w-md w-full space-y-8">
+        {/* Back button - only show if user has teams */}
+        {hasTeam && (
+          <Link
+            to="/team"
+            className="inline-flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Back to Teams
+          </Link>
+        )}
+
         <div className="text-center">
           <div className="mx-auto w-16 h-16 bg-primary-100 dark:bg-primary-900/30 rounded-full flex items-center justify-center mb-4">
             <Users className="w-8 h-8 text-primary-600 dark:text-primary-400" />
           </div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">Create Your Team</h1>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">
+            {hasTeam ? 'Create New Team' : 'Create Your Team'}
+          </h1>
           <p className="mt-2 text-gray-600 dark:text-gray-400">
-            Set up your team to get started
+            {hasTeam ? 'Add another team to your account' : 'Set up your team to get started'}
           </p>
         </div>
 
