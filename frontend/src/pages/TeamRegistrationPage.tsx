@@ -1,23 +1,16 @@
-import { useState, useEffect, FormEvent } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, FormEvent } from 'react';
+import { useNavigate, Navigate } from 'react-router-dom';
 import { Users } from 'lucide-react';
 import { createTeam } from '@/lib/teamApi';
 import { useTeam } from '@/context/TeamContext';
 
 export default function TeamRegistrationPage() {
   const navigate = useNavigate();
-  const { refreshTeams, teams, loading: teamsLoading } = useTeam();
+  const { refreshTeams, hasTeam, loading: teamsLoading } = useTeam();
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-
-  // If user already has teams, redirect to dashboard (not team page)
-  useEffect(() => {
-    if (!teamsLoading && teams.length > 0) {
-      navigate('/dashboard', { replace: true });
-    }
-  }, [teams, teamsLoading, navigate]);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -44,9 +37,9 @@ export default function TeamRegistrationPage() {
     );
   }
 
-  // Don't render if user has teams (will redirect via useEffect)
-  if (teams.length > 0) {
-    return null;
+  // If user already has teams, redirect to dashboard
+  if (hasTeam) {
+    return <Navigate to="/dashboard" replace />;
   }
 
   return (
