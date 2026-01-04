@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { ArrowLeft, Settings, User, Users, Save, Plus, Trash2, AlertCircle } from 'lucide-react';
 import UserMenu from '@/components/UserMenu';
 import { useTeam } from '@/context/TeamContext';
-import { Settings as SettingsType } from '@/lib/types';
 import {
   getUserSettings,
   patchUserSettings,
@@ -24,8 +23,6 @@ interface SettingField {
 export default function SettingsPage() {
   const { currentTeam } = useTeam();
   const [activeTab, setActiveTab] = useState<SettingsTab>('user');
-  const [userSettings, setUserSettings] = useState<SettingsType | null>(null);
-  const [teamSettings, setTeamSettings] = useState<SettingsType | null>(null);
   const [userFields, setUserFields] = useState<SettingField[]>([]);
   const [teamFields, setTeamFields] = useState<SettingField[]>([]);
   const [loading, setLoading] = useState(true);
@@ -45,12 +42,10 @@ export default function SettingsPage() {
     setError(null);
     try {
       const userSettingsData = await getUserSettings();
-      setUserSettings(userSettingsData);
       setUserFields(dataToFields(userSettingsData.data));
 
       if (currentTeam) {
         const teamSettingsData = await getTeamSettings(currentTeam.team.id);
-        setTeamSettings(teamSettingsData);
         setTeamFields(dataToFields(teamSettingsData.data));
       }
     } catch (err) {
@@ -113,11 +108,9 @@ export default function SettingsPage() {
 
       if (type === 'user') {
         const updated = await removeUserSettingsKey(field.key);
-        setUserSettings(updated);
         setUserFields(dataToFields(updated.data));
       } else if (currentTeam) {
         const updated = await removeTeamSettingsKey(currentTeam.team.id, field.key);
-        setTeamSettings(updated);
         setTeamFields(dataToFields(updated.data));
       }
 
@@ -159,11 +152,9 @@ export default function SettingsPage() {
 
       if (type === 'user') {
         const updated = await patchUserSettings(data);
-        setUserSettings(updated);
         setUserFields(dataToFields(updated.data));
       } else if (currentTeam) {
         const updated = await patchTeamSettings(currentTeam.team.id, data);
-        setTeamSettings(updated);
         setTeamFields(dataToFields(updated.data));
       }
 
