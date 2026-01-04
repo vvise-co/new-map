@@ -10,7 +10,7 @@ import TeamRegistrationPage from '@/pages/TeamRegistrationPage';
 import TeamManagementPage from '@/pages/TeamManagementPage';
 import InviteLandingPage from '@/pages/InviteLandingPage';
 import SettingsPage from '@/pages/SettingsPage';
-import TeamRedirect from '@/components/TeamRedirect';
+import TeamsPage from '@/pages/TeamsPage';
 
 function App() {
   return (
@@ -33,7 +33,7 @@ function App() {
               <Route path="/dashboard" element={<DashboardPage />} />
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="/settings" element={<SettingsPage />} />
-              <Route path="/team" element={<TeamRedirect />} />
+              <Route path="/team" element={<TeamsPage />} />
               <Route path="/team/:teamId" element={<TeamManagementPage />} />
             </Route>
 

@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { User, LogOut, ChevronDown } from 'lucide-react';
+import { User, LogOut, ChevronDown, Settings, Users } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 
 export default function UserMenu() {
@@ -58,6 +58,24 @@ export default function UserMenu() {
           >
             <User className="w-4 h-4" />
             Profile
+          </Link>
+
+          <Link
+            to="/team"
+            onClick={() => setIsOpen(false)}
+            className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+          >
+            <Users className="w-4 h-4" />
+            Teams
+          </Link>
+
+          <Link
+            to="/settings"
+            onClick={() => setIsOpen(false)}
+            className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+          >
+            <Settings className="w-4 h-4" />
+            Settings
           </Link>
 
           <button
