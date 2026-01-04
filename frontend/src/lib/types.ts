@@ -161,3 +161,30 @@ export interface Settings {
 export interface PatchSettingsRequest {
   data: Record<string, unknown>;
 }
+
+// Project types
+export interface Project {
+  id: string;
+  name: string;
+  description?: string;
+  starred: boolean;
+  team_id: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface CreateProjectRequest {
+  name: string;
+  description?: string;
+}
+
+export interface UpdateProjectRequest {
+  name?: string;
+  description?: string;
+  starred?: boolean;
+}
+
+export interface ProjectListResponse {
+  recent: Project[];
+  starred: Project[];
+}

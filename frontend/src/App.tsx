@@ -11,6 +11,9 @@ import TeamManagementPage from '@/pages/TeamManagementPage';
 import InviteLandingPage from '@/pages/InviteLandingPage';
 import SettingsPage from '@/pages/SettingsPage';
 import TeamsPage from '@/pages/TeamsPage';
+import ProjectsPage from '@/pages/ProjectsPage';
+import ProjectCreationPage from '@/pages/ProjectCreationPage';
+import ProjectPage from '@/pages/ProjectPage';
 
 function App() {
   return (
@@ -35,6 +38,9 @@ function App() {
               <Route path="/settings" element={<SettingsPage />} />
               <Route path="/team" element={<TeamsPage />} />
               <Route path="/team/:teamId" element={<TeamManagementPage />} />
+              <Route path="/projects" element={<ProjectsPage />} />
+              <Route path="/projects/new" element={<ProjectCreationPage />} />
+              <Route path="/projects/:projectId" element={<ProjectPage />} />
             </Route>
 
             {/* Default redirect */}
