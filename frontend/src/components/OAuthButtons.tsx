@@ -1,13 +1,22 @@
 import { useAuth } from '@/context/AuthContext';
 
-export default function OAuthButtons() {
+interface OAuthButtonsProps {
+  onBeforeLogin?: () => void;
+}
+
+export default function OAuthButtons({ onBeforeLogin }: OAuthButtonsProps) {
   const { login } = useAuth();
+
+  const handleLogin = (provider: 'google' | 'github' | 'microsoft') => {
+    onBeforeLogin?.();
+    login(provider);
+  };
 
   return (
     <div className="space-y-3">
       {/* Google */}
       <button
-        onClick={() => login('google')}
+        onClick={() => handleLogin('google')}
         className="w-full flex items-center justify-center gap-3 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
       >
         <svg className="w-5 h-5" viewBox="0 0 24 24">
@@ -33,7 +42,7 @@ export default function OAuthButtons() {
 
       {/* GitHub */}
       <button
-        onClick={() => login('github')}
+        onClick={() => handleLogin('github')}
         className="w-full flex items-center justify-center gap-3 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
       >
         <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -48,7 +57,7 @@ export default function OAuthButtons() {
 
       {/* Microsoft */}
       <button
-        onClick={() => login('microsoft')}
+        onClick={() => handleLogin('microsoft')}
         className="w-full flex items-center justify-center gap-3 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
       >
         <svg className="w-5 h-5" viewBox="0 0 23 23">

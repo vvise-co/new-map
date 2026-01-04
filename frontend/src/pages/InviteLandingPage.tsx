@@ -5,11 +5,12 @@ import { useAuth } from '@/context/AuthContext';
 import { useTeam } from '@/context/TeamContext';
 import { InvitationInfo } from '@/lib/types';
 import { getInvitationInfo, acceptInvitation } from '@/lib/teamApi';
+import OAuthButtons from '@/components/OAuthButtons';
 
 export default function InviteLandingPage() {
   const { token } = useParams<{ token: string }>();
   const navigate = useNavigate();
-  const { user, loading: authLoading, login } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const { refreshTeams } = useTeam();
   const [inviteInfo, setInviteInfo] = useState<InvitationInfo | null>(null);
   const [loading, setLoading] = useState(true);
@@ -62,12 +63,11 @@ export default function InviteLandingPage() {
     }
   };
 
-  const handleLogin = () => {
+  const storePendingInvite = () => {
     // Store invite token in sessionStorage to process after login
     if (token) {
       sessionStorage.setItem('pending_invite', token);
     }
-    login();
   };
 
   if (loading || authLoading) {
@@ -189,12 +189,12 @@ export default function InviteLandingPage() {
               {accepting ? 'Joining...' : 'Accept Invitation'}
             </button>
           ) : (
-            <button
-              onClick={handleLogin}
-              className="w-full py-3 px-4 bg-primary-600 hover:bg-primary-700 text-white font-medium rounded-lg transition-colors"
-            >
-              Sign in to Accept
-            </button>
+            <div className="space-y-4">
+              <p className="text-sm text-gray-600 dark:text-gray-400 text-center">
+                Sign in to accept this invitation
+              </p>
+              <OAuthButtons onBeforeLogin={storePendingInvite} />
+            </div>
           )}
         </div>
       </div>
