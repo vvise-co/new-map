@@ -7,13 +7,15 @@ import org.springframework.stereotype.Repository
 import java.util.UUID
 
 @Repository
-interface ProjectRepository : TeamOwnedRepository<Project> {
+interface ProjectRepository : BaseRepository<Project> {
+
+    fun findByTeamIdAndDeletedFalse(teamId: UUID): List<Project>
+
+    fun findByIdAndTeamIdAndDeletedFalse(id: UUID, teamId: UUID): Project?
 
     @Query("SELECT p FROM Project p WHERE p.team.id = :teamId AND p.deleted = false ORDER BY p.updatedAt DESC")
     fun findRecentByTeamId(teamId: UUID, pageable: Pageable): List<Project>
 
     @Query("SELECT p FROM Project p WHERE p.team.id = :teamId AND p.starred = true AND p.deleted = false ORDER BY p.updatedAt DESC")
     fun findStarredByTeamId(teamId: UUID): List<Project>
-
-    override fun findByIdAndTeamIdAndDeletedFalse(id: UUID, teamId: UUID): Project?
 }
