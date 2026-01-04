@@ -28,6 +28,8 @@ class SpaController {
             "/dashboard/**",
             "/profile",
             "/profile/**",
+            "/settings",
+            "/settings/**",
             "/auth/callback",
             "/invite/**",
             "/register-team",
