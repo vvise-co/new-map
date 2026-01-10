@@ -1,32 +1,16 @@
-import { Link } from 'react-router-dom';
-import { ArrowLeft } from 'lucide-react';
-import UserMenu from '@/components/UserMenu';
 import { useAuth } from '@/context/AuthContext';
+import { PageHeader } from '@/components/layout';
+import { Card, Badge } from '@/components/ui';
 
 export default function ProfilePage() {
   const { user } = useAuth();
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      {/* Header */}
-      <header className="bg-white dark:bg-gray-800 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-          <div className="flex items-center gap-4">
-            <Link
-              to="/dashboard"
-              className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
-            >
-              <ArrowLeft className="w-5 h-5 text-gray-600 dark:text-gray-400" />
-            </Link>
-            <h1 className="text-xl font-semibold text-gray-900 dark:text-gray-100">Profile</h1>
-          </div>
-          <UserMenu />
-        </div>
-      </header>
+    <div className="page-container">
+      <PageHeader title="Profile" backTo="/dashboard" />
 
-      {/* Main content */}
       <main className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm overflow-hidden">
+        <Card>
           {/* Profile header */}
           <div className="bg-gradient-to-r from-primary-500 to-primary-600 px-6 py-8">
             <div className="flex items-center gap-4">
@@ -51,27 +35,25 @@ export default function ProfilePage() {
           {/* Profile details */}
           <div className="p-6 space-y-6">
             <div>
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
-                Account Details
-              </h3>
+              <h3 className="text-heading-section mb-4">Account Details</h3>
               <dl className="grid gap-4 sm:grid-cols-2">
-                <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4">
-                  <dt className="text-sm text-gray-500 dark:text-gray-400">Full Name</dt>
-                  <dd className="mt-1 text-gray-900 dark:text-gray-100 font-medium">{user?.name}</dd>
+                <div className="surface-subtle p-4">
+                  <dt className="text-body-sm">Full Name</dt>
+                  <dd className="mt-1 text-heading-card">{user?.name}</dd>
                 </div>
-                <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4">
-                  <dt className="text-sm text-gray-500 dark:text-gray-400">Email Address</dt>
-                  <dd className="mt-1 text-gray-900 dark:text-gray-100 font-medium">{user?.email}</dd>
+                <div className="surface-subtle p-4">
+                  <dt className="text-body-sm">Email Address</dt>
+                  <dd className="mt-1 text-heading-card">{user?.email}</dd>
                 </div>
-                <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4">
-                  <dt className="text-sm text-gray-500 dark:text-gray-400">Auth Provider</dt>
-                  <dd className="mt-1 text-gray-900 dark:text-gray-100 font-medium capitalize">
+                <div className="surface-subtle p-4">
+                  <dt className="text-body-sm">Auth Provider</dt>
+                  <dd className="mt-1 text-heading-card capitalize">
                     {user?.provider?.toLowerCase()}
                   </dd>
                 </div>
-                <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4">
-                  <dt className="text-sm text-gray-500 dark:text-gray-400">Email Verified</dt>
-                  <dd className="mt-1 text-gray-900 dark:text-gray-100 font-medium">
+                <div className="surface-subtle p-4">
+                  <dt className="text-body-sm">Email Verified</dt>
+                  <dd className="mt-1 text-heading-card">
                     {user?.email_verified ? 'Yes' : 'No'}
                   </dd>
                 </div>
@@ -79,24 +61,21 @@ export default function ProfilePage() {
             </div>
 
             <div>
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Roles</h3>
+              <h3 className="text-heading-section mb-4">Roles</h3>
               <div className="flex flex-wrap gap-2">
                 {user?.roles?.map((role) => (
-                  <span
+                  <Badge
                     key={role}
-                    className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
-                      role === 'ADMIN'
-                        ? 'bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300'
-                        : 'bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300'
-                    }`}
+                    variant={role === 'ADMIN' ? 'purple' : 'blue'}
+                    size="md"
                   >
                     {role}
-                  </span>
+                  </Badge>
                 ))}
               </div>
             </div>
           </div>
-        </div>
+        </Card>
       </main>
     </div>
   );

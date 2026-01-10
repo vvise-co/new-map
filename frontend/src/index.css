@@ -1,5 +1,9 @@
 @tailwind base;
 @tailwind components;
+
+/* Import design system utilities - must come after @tailwind components */
+@import './styles/components.css';
+
 @tailwind utilities;
 
 :root {
