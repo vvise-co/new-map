@@ -10,6 +10,7 @@ export default function LoginPage() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const error = searchParams.get('error');
+  const sessionExpired = searchParams.get('session_expired') === 'true';
 
   useEffect(() => {
     if (!loading && user) {
@@ -28,6 +29,12 @@ export default function LoginPage() {
           <h1 className="text-heading-large">Welcome</h1>
           <p className="mt-2 text-body">Sign in to continue</p>
         </div>
+
+        {sessionExpired && (
+          <Alert variant="warning">
+            Your session has expired. Please sign in again to continue where you left off.
+          </Alert>
+        )}
 
         {error && <Alert variant="error">{error}</Alert>}
 

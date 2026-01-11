@@ -1,6 +1,6 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect, ReactNode, useCallback } from 'react';
 import { User } from '@/lib/types';
-import { getCurrentUser, logout as apiLogout, getAuthServerUrl } from '@/lib/api';
+import { getCurrentUser, logout as apiLogout, getAuthServerUrl, SESSION_EXPIRED_EVENT } from '@/lib/api';
 
 interface AuthContextType {
   user: User | null;
@@ -31,6 +31,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     fetchUser();
   }, []);
+
+  // Handle session expiration - redirect to login
+  const handleSessionExpired = useCallback(() => {
+    setUser(null);
+    window.location.href = '/login?session_expired=true';
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener(SESSION_EXPIRED_EVENT, handleSessionExpired);
+    return () => {
+      window.removeEventListener(SESSION_EXPIRED_EVENT, handleSessionExpired);
+    };
+  }, [handleSessionExpired]);
 
   const login = (provider: 'google' | 'github' | 'microsoft' = 'google') => {
     // Redirect to auth server's OAuth endpoint with callback to this app

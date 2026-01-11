@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams, Link } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
-import { setTokens } from '@/lib/api';
+import { setTokens, getReturnUrl, clearReturnUrl } from '@/lib/api';
 import { LoadingScreen } from '@/components/feedback';
 import { Button } from '@/components/ui';
 
@@ -38,6 +38,14 @@ export default function AuthCallbackPage() {
         if (pendingInvite) {
           sessionStorage.removeItem('pending_invite');
           navigate(`/invite/${pendingInvite}`, { replace: true });
+          return;
+        }
+
+        // Check for return URL (from session expiration redirect)
+        const returnUrl = getReturnUrl();
+        if (returnUrl) {
+          clearReturnUrl();
+          navigate(returnUrl, { replace: true });
           return;
         }
 

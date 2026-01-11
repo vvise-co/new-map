@@ -9,6 +9,27 @@ const API_URL = import.meta.env.VITE_API_URL || '';
 // Token storage keys
 const ACCESS_TOKEN_KEY = 'access_token';
 const REFRESH_TOKEN_KEY = 'refresh_token';
+const RETURN_URL_KEY = 'return_url';
+
+// Session expiration event
+export const SESSION_EXPIRED_EVENT = 'session_expired';
+
+export function dispatchSessionExpired(): void {
+  // Store current URL for return after login
+  const currentPath = window.location.pathname + window.location.search;
+  if (currentPath !== '/login' && currentPath !== '/auth/callback') {
+    sessionStorage.setItem(RETURN_URL_KEY, currentPath);
+  }
+  window.dispatchEvent(new CustomEvent(SESSION_EXPIRED_EVENT));
+}
+
+export function getReturnUrl(): string | null {
+  return sessionStorage.getItem(RETURN_URL_KEY);
+}
+
+export function clearReturnUrl(): void {
+  sessionStorage.removeItem(RETURN_URL_KEY);
+}
 
 // Get stored access token
 export function getAccessToken(): string | null {
@@ -82,8 +103,9 @@ class ApiClient {
           return retryResponse.json();
         }
       }
-      // Refresh failed, clear tokens
+      // Refresh failed, clear tokens and dispatch session expired event
       clearTokens();
+      dispatchSessionExpired();
       throw new Error('Session expired');
     }
 
