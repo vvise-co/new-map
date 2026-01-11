@@ -17,17 +17,17 @@
 
   /* Default content container - good for most pages */
   .content-container {
-    @apply max-w-4xl mx-auto px-4 sm:px-6 lg:px-8;
+    @apply max-w-5xl mx-auto px-4 sm:px-6 lg:px-8;
   }
 
   /* Narrow container - for forms and single-column content */
   .content-container-narrow {
-    @apply max-w-3xl mx-auto px-4 sm:px-6 lg:px-8;
+    @apply max-w-4xl mx-auto px-4 sm:px-6 lg:px-8;
   }
 
   /* Wide container - for dashboards with grids */
   .content-container-wide {
-    @apply max-w-6xl mx-auto px-4 sm:px-6 lg:px-8;
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
   }
 
   /* Form container - centered forms */
