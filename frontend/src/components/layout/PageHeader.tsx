@@ -19,6 +19,8 @@ interface PageHeaderProps {
   showUserMenu?: boolean;
   /** Optional subtitle/description */
   subtitle?: string;
+  /** Container class (default: content-container) */
+  containerClass?: string;
   /** Additional className for header */
   className?: string;
 }
@@ -31,11 +33,12 @@ export function PageHeader({
   actions,
   showUserMenu = true,
   subtitle,
+  containerClass = 'content-container',
   className,
 }: PageHeaderProps) {
   return (
     <header className={cn('surface-header', className)}>
-      <div className="content-container py-4 flex justify-between items-center">
+      <div className={cn(containerClass, 'py-4 flex justify-between items-center')}>
         <div className="flex items-center gap-4">
           {backTo && (
             <Link

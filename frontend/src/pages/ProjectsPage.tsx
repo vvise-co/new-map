@@ -70,6 +70,7 @@ export default function ProjectsPage() {
     <div className="page-container">
       <PageHeader
         title="Projects"
+        containerClass="content-container-wide"
         actions={
           <Button
             onClick={() => navigate('/projects/new')}
@@ -80,7 +81,7 @@ export default function ProjectsPage() {
         }
       />
 
-      <main className="content-container py-8">
+      <main className="content-container-wide py-8">
         {error && <Alert variant="error" className="mb-6">{error}</Alert>}
 
         {/* Recent Projects Section */}

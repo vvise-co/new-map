@@ -248,6 +248,7 @@ export default function SettingsPage() {
         title="Settings"
         icon={<Settings className="w-6 h-6" />}
         backTo="/dashboard"
+        containerClass="content-container-narrow"
       />
 
       <main className="content-container-narrow py-8">

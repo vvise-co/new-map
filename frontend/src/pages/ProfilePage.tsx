@@ -7,9 +7,9 @@ export default function ProfilePage() {
 
   return (
     <div className="page-container">
-      <PageHeader title="Profile" backTo="/dashboard" />
+      <PageHeader title="Profile" backTo="/dashboard" containerClass="content-container-narrow" />
 
-      <main className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="content-container-narrow py-8">
         <Card>
           {/* Profile header */}
           <div className="bg-gradient-to-r from-primary-500 to-primary-600 px-6 py-8">

@@ -55,7 +55,7 @@ export default function ProjectPage() {
     return (
       <div className="page-container">
         <header className="surface-header">
-          <div className="content-container py-4">
+          <div className="content-container-narrow py-4">
             <Link
               to="/projects"
               className="inline-flex items-center gap-2 text-body hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
@@ -65,7 +65,7 @@ export default function ProjectPage() {
             </Link>
           </div>
         </header>
-        <main className="content-container py-8">
+        <main className="content-container-narrow py-8">
           <Alert variant="error">{error || 'Project not found'}</Alert>
         </main>
       </div>
@@ -76,7 +76,7 @@ export default function ProjectPage() {
     <div className="page-container">
       {/* Header */}
       <header className="surface-header">
-        <div className="content-container py-4">
+        <div className="content-container-narrow py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <Link
@@ -120,7 +120,7 @@ export default function ProjectPage() {
       </header>
 
       {/* Main content - Empty state for now */}
-      <main className="content-container py-12">
+      <main className="content-container-narrow py-12">
         <Card padding="lg" className="text-center">
           <EmptyState
             variant="subtle"

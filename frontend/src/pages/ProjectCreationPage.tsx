@@ -87,7 +87,7 @@ export default function ProjectCreationPage() {
     <div className="page-container">
       {/* Header */}
       <header className="surface-header">
-        <div className="content-container py-4">
+        <div className="content-container-narrow py-4">
           <button
             onClick={handleBack}
             className="inline-flex items-center gap-2 text-body hover:text-gray-900 dark:hover:text-gray-100 transition-colors"

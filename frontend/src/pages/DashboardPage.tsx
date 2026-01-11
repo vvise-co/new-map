@@ -43,6 +43,7 @@ export default function DashboardPage() {
     <div className="page-container">
       <PageHeader
         title="Dashboard"
+        containerClass="content-container-wide"
         actions={
           <Button
             onClick={() => navigate('/projects/new')}
@@ -53,7 +54,7 @@ export default function DashboardPage() {
         }
       />
 
-      <main className="content-container py-8">
+      <main className="content-container-wide py-8">
         <div className="mb-8">
           <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
             Welcome back, {user?.name?.split(' ')[0]}!

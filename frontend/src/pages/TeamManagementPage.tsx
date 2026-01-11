@@ -79,7 +79,7 @@ export default function TeamManagementPage() {
 
   return (
     <div className="page-container">
-      <PageHeader title="Team Management" backTo="/dashboard" />
+      <PageHeader title="Team Management" backTo="/dashboard" containerClass="content-container-narrow" />
 
       <main className="content-container-narrow py-8 space-y-8">
         {/* Team Info */}

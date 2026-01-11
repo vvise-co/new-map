@@ -18,6 +18,7 @@ export default function TeamsPage() {
         title="Teams"
         icon={<Users className="w-6 h-6" />}
         backTo="/dashboard"
+        containerClass="content-container-narrow"
       />
 
       <main className="content-container-narrow py-8">
