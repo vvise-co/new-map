@@ -1,6 +1,10 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from '@/context/AuthContext';
+import { ApiProvider } from '@/context/ApiContext';
 import { TeamProvider } from '@/context/TeamContext';
+import { ProjectProvider } from '@/context/ProjectContext';
+import { CompositionProvider } from '@/context/CompositionContext';
+import { MapAssetProvider } from '@/context/MapAssetContext';
 import ProtectedRoute from '@/components/ProtectedRoute';
 import LoginPage from '@/pages/LoginPage';
 import DashboardPage from '@/pages/DashboardPage';
@@ -19,91 +23,47 @@ import { ThemeProvider } from './context/ThemeContext';
 function App() {
   return (
     <AuthProvider>
-      <TeamProvider>
-        <ThemeProvider>
-          <BrowserRouter>
-            <Routes>
-              {/* Public routes */}
-              <Route
-                path='/login'
-                element={<LoginPage />}
-              />
-              <Route
-                path='/auth/callback'
-                element={<AuthCallbackPage />}
-              />
-              <Route
-                path='/invite/:token'
-                element={<InviteLandingPage />}
-              />
+      <ApiProvider>
+        <TeamProvider>
+          <ProjectProvider>
+            <MapAssetProvider>
+              <CompositionProvider>
+                <ThemeProvider>
+                  <BrowserRouter>
+                    <Routes>
+                      {/* Public routes */}
+                      <Route path="/login" element={<LoginPage />} />
+                      <Route path="/auth/callback" element={<AuthCallbackPage />} />
+                      <Route path="/invite/:token" element={<InviteLandingPage />} />
 
-              {/* Team registration (requires auth, no team required) */}
-              <Route element={<ProtectedRoute requireTeam={false} />}>
-                <Route
-                  path='/register-team'
-                  element={<TeamRegistrationPage />}
-                />
-              </Route>
+                      {/* Team registration (requires auth, no team required) */}
+                      <Route element={<ProtectedRoute requireTeam={false} />}>
+                        <Route path="/register-team" element={<TeamRegistrationPage />} />
+                      </Route>
 
-              {/* Protected routes (require auth AND team) */}
-              <Route element={<ProtectedRoute requireTeam={true} />}>
-                <Route
-                  path='/dashboard'
-                  element={<DashboardPage />}
-                />
-                <Route
-                  path='/profile'
-                  element={<ProfilePage />}
-                />
-                <Route
-                  path='/settings'
-                  element={<SettingsPage />}
-                />
-                <Route
-                  path='/team'
-                  element={<TeamsPage />}
-                />
-                <Route
-                  path='/team/:teamId'
-                  element={<TeamManagementPage />}
-                />
-                <Route
-                  path='/projects'
-                  element={<ProjectsPage />}
-                />
-                <Route
-                  path='/projects/new'
-                  element={<ProjectCreationPage />}
-                />
-                <Route
-                  path='/projects/:projectId'
-                  element={<ProjectPage />}
-                />
-              </Route>
+                      {/* Protected routes (require auth AND team) */}
+                      <Route element={<ProtectedRoute requireTeam={true} />}>
+                        <Route path="/dashboard" element={<DashboardPage />} />
+                        <Route path="/profile" element={<ProfilePage />} />
+                        <Route path="/settings" element={<SettingsPage />} />
+                        <Route path="/team" element={<TeamsPage />} />
+                        <Route path="/team/:teamId" element={<TeamManagementPage />} />
+                        <Route path="/projects" element={<ProjectsPage />} />
+                        <Route path="/projects/new" element={<ProjectCreationPage />} />
+                        <Route path="/projects/:projectId" element={<ProjectPage />} />
+                      </Route>
 
-              {/* Default redirect */}
-              <Route
-                path='/'
-                element={
-                  <Navigate
-                    to='/dashboard'
-                    replace
-                  />
-                }
-              />
-              <Route
-                path='*'
-                element={
-                  <Navigate
-                    to='/dashboard'
-                    replace
-                  />
-                }
-              />
-            </Routes>
-          </BrowserRouter>
-        </ThemeProvider>
-      </TeamProvider>
+                      {/* Default redirect */}
+                      <Route path="/" element={<Navigate to="/dashboard" replace />} />
+                      <Route path="*" element={<Navigate to="/dashboard" replace />} />
+                    </Routes>
+                  </BrowserRouter>
+                </ThemeProvider>
+              </CompositionProvider>
+            </MapAssetProvider>
+          </ProjectProvider>
+        </TeamProvider>
+      </ApiProvider>
     </AuthProvider>
   );
 }

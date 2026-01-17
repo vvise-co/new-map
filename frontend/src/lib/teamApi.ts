@@ -8,13 +8,8 @@ import {
   CreateTeamResponse,
   CreateInvitationRequest,
   AcceptInvitationResponse,
+  ApiResponse,
 } from './types';
-
-interface ApiResponse<T> {
-  success: boolean;
-  data: T;
-  error?: string;
-}
 
 // Team endpoints
 export async function createTeam(data: CreateTeamRequest): Promise<CreateTeamResponse> {

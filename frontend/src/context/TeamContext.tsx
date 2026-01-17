@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, useEffect, ReactNode, useCallback, useRef } from 'react';
 import { Team, TeamWithMembers } from '@/lib/types';
-import { getUserTeams, getTeam, checkHasTeam } from '@/lib/teamApi';
 import { useAuth } from './AuthContext';
+import { useTeamApi } from './ApiContext';
 
 interface TeamContextType {
   teams: Team[];
@@ -17,6 +17,7 @@ const TeamContext = createContext<TeamContextType | undefined>(undefined);
 
 export function TeamProvider({ children }: { children: ReactNode }) {
   const { user, loading: authLoading } = useAuth();
+  const api = useTeamApi();
   const [teams, setTeams] = useState<Team[]>([]);
   const [currentTeam, setCurrentTeam] = useState<TeamWithMembers | null>(null);
   const [hasTeam, setHasTeam] = useState(false);
@@ -36,15 +37,15 @@ export function TeamProvider({ children }: { children: ReactNode }) {
     setLoading(true);
     try {
       const [userTeams, hasTeamResult] = await Promise.all([
-        getUserTeams(),
-        checkHasTeam(),
+        api.getUserTeams(),
+        api.checkHasTeam(),
       ]);
       setTeams(userTeams);
       setHasTeam(hasTeamResult);
 
       // Auto-select first team if we have one and no current selection
       if (userTeams.length > 0 && !currentTeamRef.current) {
-        const teamDetails = await getTeam(userTeams[0].id);
+        const teamDetails = await api.getTeam(userTeams[0].id);
         setCurrentTeam(teamDetails);
         currentTeamRef.current = teamDetails;
       }
@@ -55,7 +56,7 @@ export function TeamProvider({ children }: { children: ReactNode }) {
     } finally {
       setLoading(false);
     }
-  }, [user]);
+  }, [user, api]);
 
   useEffect(() => {
     // Don't do anything while auth is still loading
@@ -74,10 +75,10 @@ export function TeamProvider({ children }: { children: ReactNode }) {
     }
   }, [user, authLoading, refreshTeams]);
 
-  const selectTeam = async (teamId: string) => {
+  const selectTeam = useCallback(async (teamId: string) => {
     setLoading(true);
     try {
-      const teamDetails = await getTeam(teamId);
+      const teamDetails = await api.getTeam(teamId);
       setCurrentTeam(teamDetails);
       currentTeamRef.current = teamDetails;
     } catch (error) {
@@ -85,7 +86,7 @@ export function TeamProvider({ children }: { children: ReactNode }) {
     } finally {
       setLoading(false);
     }
-  };
+  }, [api]);
 
   const clearTeam = () => {
     setCurrentTeam(null);

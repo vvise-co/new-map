@@ -4,13 +4,8 @@ import {
   ProjectListResponse,
   CreateProjectRequest,
   UpdateProjectRequest,
+  ApiResponse,
 } from './types';
-
-interface ApiResponse<T> {
-  success: boolean;
-  data: T;
-  error?: string;
-}
 
 export async function createProject(
   teamId: string,

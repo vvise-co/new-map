@@ -1,11 +1,5 @@
 import { api } from './api';
-import { Settings, PatchSettingsRequest } from './types';
-
-interface ApiResponse<T> {
-  success: boolean;
-  data: T;
-  error?: string;
-}
+import { Settings, PatchSettingsRequest, ApiResponse } from './types';
 
 // User Settings
 export async function getUserSettings(): Promise<Settings> {
