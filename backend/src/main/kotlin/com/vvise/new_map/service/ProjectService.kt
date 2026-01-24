@@ -1,7 +1,9 @@
 package com.vvise.new_map.service
 
+import com.vvise.new_map.config.MapProperties
 import com.vvise.new_map.dto.*
 import com.vvise.new_map.entity.Project
+import com.vvise.new_map.entity.SettingsScope
 import com.vvise.new_map.repository.ProjectRepository
 import com.vvise.new_map.repository.TeamRepository
 import com.vvise.new_map.security.AuthenticatedUser
@@ -14,7 +16,9 @@ import java.util.UUID
 class ProjectService(
     private val projectRepository: ProjectRepository,
     private val teamRepository: TeamRepository,
-    private val teamService: TeamService
+    private val teamService: TeamService,
+    private val settingsService: SettingsService,
+    private val mapProperties: MapProperties
 ) {
 
     @Transactional
@@ -37,6 +41,17 @@ class ProjectService(
         )
 
         val saved = projectRepository.save(project)
+
+        // Create default project settings with map defaults
+        val defaultSettings = mapOf(
+            "mapDefaults" to mapProperties.buildDefaultMapConfig()
+        )
+        settingsService.createSettings(
+            scope = SettingsScope.PROJECT,
+            scopeId = saved.id!!,
+            request = CreateSettingsRequest(data = defaultSettings)
+        )
+
         return ProjectDto.from(saved)
     }
 

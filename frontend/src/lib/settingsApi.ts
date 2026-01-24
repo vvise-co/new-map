@@ -1,5 +1,7 @@
 import { api } from './api';
 import { Settings, PatchSettingsRequest, ApiResponse } from './types';
+import { MapConfig } from '@/types/utiles';
+import { DEFAULT_MAP_CONFIG, MAP_DEFAULTS_SETTINGS_KEY } from './managers/mapConfig';
 
 // User Settings
 export async function getUserSettings(): Promise<Settings> {
@@ -63,4 +65,46 @@ export async function removeProjectSettingsKey(
     `/api/teams/${teamId}/projects/${projectId}/settings/${key}`
   );
   return response.data;
+}
+
+// Project Map Defaults - Typed helpers
+
+/**
+ * Get project map defaults with fallback to DEFAULT_MAP_CONFIG.
+ */
+export async function getProjectMapDefaults(teamId: string, projectId: string): Promise<MapConfig> {
+  try {
+    const settings = await getProjectSettings(teamId, projectId);
+    const mapDefaults = settings.data[MAP_DEFAULTS_SETTINGS_KEY] as Partial<MapConfig> | undefined;
+
+    if (mapDefaults) {
+      return {
+        ...DEFAULT_MAP_CONFIG,
+        ...mapDefaults,
+      };
+    }
+    return DEFAULT_MAP_CONFIG;
+  } catch {
+    return DEFAULT_MAP_CONFIG;
+  }
+}
+
+/**
+ * Update project map defaults (partial update supported).
+ */
+export async function patchProjectMapDefaults(
+  teamId: string,
+  projectId: string,
+  mapDefaults: Partial<MapConfig>
+): Promise<Settings> {
+  return patchProjectSettings(teamId, projectId, {
+    [MAP_DEFAULTS_SETTINGS_KEY]: mapDefaults,
+  });
+}
+
+/**
+ * Reset project map defaults to system defaults.
+ */
+export async function resetProjectMapDefaults(teamId: string, projectId: string): Promise<Settings> {
+  return removeProjectSettingsKey(teamId, projectId, MAP_DEFAULTS_SETTINGS_KEY);
 }

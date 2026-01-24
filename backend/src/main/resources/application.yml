@@ -39,6 +39,20 @@ app:
   # Base URL for generating links (e.g., invitation links)
   base-url: ${APP_BASE_URL:http://localhost:5173}
 
+# Map Configuration
+map:
+  maptiler:
+    api-key: ${MAP_TILER_API_KEY:BT1N1fSWfjN5SLzJmC0n}
+    map-id: ${MAP_TILER_MAP_ID:0198086b-cd8f-7c6b-b1d2-cf4970224855}
+  defaults:
+    center:
+      lng: 53.688
+      lat: 32.4279
+    zoom: 5
+    min-zoom: 2
+    pitch: 0
+    bearing: 0
+
 # Auth Server Configuration
 # Token validation via introspection
 auth:

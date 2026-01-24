@@ -531,3 +531,157 @@ This is usually caused by **misconfigured OAuth URLs on the auth server**. The a
 ### Cache issues
 - Token introspection results are cached for 5 minutes
 - Set `AUTH_CACHE_TTL=60` for shorter cache during development
+
+---
+
+## Map Timeline System
+
+This project includes a video editor-like map timeline system for creating animated map compositions.
+
+### Architecture
+
+```
+Team
+├── AssetCategory (folders for organization)
+│   ├── name, parentCategory (hierarchical)
+│   └── order
+│
+├── MapAsset (team-level templates)
+│   ├── type: POINT | POLYLINE | POLYGON
+│   ├── category (optional folder)
+│   ├── tags (for filtering)
+│   ├── styleData (JSONB)
+│   └── defaultGeometry (PostGIS)
+│
+└── Project
+    └── Composition (1:1 with project)
+        ├── BaseLayer (single, handles camera/transitions)
+        │   └── BaseSegment (camera positions + transitions)
+        │
+        └── OverlayLayer (multiple, each is one map element)
+            ├── mapAsset reference
+            ├── geometry (PostGIS point/line/polygon)
+            ├── keyframes (animation)
+            └── transitions (between layers)
+```
+
+### Key Features
+
+- **Team Assets**: Reusable map element templates (points, polylines, polygons) with styling
+- **Asset Categories**: Hierarchical folders + tags for organization
+- **Project Timeline**: Video editor-like layers with keyframes and transitions
+- **PostGIS Support**: Native spatial data with GeoJSON API for frontend communication
+- **Keyframe Animation**: Animate properties like opacity, scale, rotation
+- **Transitions**: Smooth transitions between map elements (fade, flyto, etc.)
+
+### GeoJSON API
+
+Frontend sends standard GeoJSON, backend converts to PostGIS:
+
+```json
+// Create a polygon layer
+{
+  "name": "City Area",
+  "map_asset_id": "uuid-of-area-asset",
+  "start_time": 5.0,
+  "end_time": 15.0,
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [[[lng, lat], [lng, lat], [lng, lat], [lng, lat]]]
+  }
+}
+```
+
+---
+
+## Frontend Architecture
+
+### API Layer
+
+The frontend uses a modular API architecture with TypeScript types matching the backend DTOs.
+
+#### API Modules
+
+| Module | Description |
+|--------|-------------|
+| `lib/teamApi.ts` | Team and invitation management |
+| `lib/projectApi.ts` | Project CRUD operations |
+| `lib/settingsApi.ts` | User, team, and project settings |
+| `lib/mapAssetApi.ts` | Map assets and categories |
+| `lib/compositionApi.ts` | Compositions and base layer (camera) |
+| `lib/overlayLayerApi.ts` | Overlay layers, keyframes, transitions |
+
+### React Context Pattern
+
+The application uses a layered context architecture for state management and API access.
+
+#### Provider Hierarchy
+
+```tsx
+<AuthProvider>           {/* Authentication state */}
+  <ApiProvider>          {/* Mockable API layer */}
+    <TeamProvider>       {/* Team selection */}
+      <ProjectProvider>  {/* Project state */}
+        <MapAssetProvider>     {/* Asset management */}
+          <CompositionProvider> {/* Timeline state */}
+            <ThemeProvider>
+              <BrowserRouter>
+                {/* Routes */}
+              </BrowserRouter>
+            </ThemeProvider>
+          </CompositionProvider>
+        </MapAssetProvider>
+      </ProjectProvider>
+    </TeamProvider>
+  </ApiProvider>
+</AuthProvider>
+```
+
+#### Available Contexts
+
+| Context | Hook | Description |
+|---------|------|-------------|
+| `ApiContext` | `useApi()`, `useTeamApi()`, `useProjectApi()`, etc. | Mockable API access |
+| `TeamContext` | `useTeam()` | Current team, team list |
+| `ProjectContext` | `useProject()` | Current project, project list |
+| `MapAssetContext` | `useMapAssets()` | Assets, categories, filters |
+| `CompositionContext` | `useComposition()` | Timeline, layers, keyframes |
+
+#### Usage Examples
+
+```tsx
+// Using domain contexts in components
+import { useProject, useComposition, useMapAssets } from '@/context';
+
+function TimelineEditor() {
+  const { currentProject } = useProject();
+  const { composition, addLayer, selectedLayer } = useComposition();
+  const { assets, loadAssets } = useMapAssets();
+
+  // Access state and call actions...
+}
+```
+
+#### Mocking for Tests
+
+```tsx
+import { ApiProvider } from '@/context/ApiContext';
+
+// Override specific API modules for testing
+<ApiProvider overrides={{
+  project: mockProjectApi,
+  composition: mockCompositionApi,
+}}>
+  <App />
+</ApiProvider>
+```
+
+### TypeScript Types
+
+All backend DTOs have corresponding TypeScript interfaces in `lib/types.ts`:
+
+- **GeoJSON**: `GeoJsonGeometry`, `GeoJsonPoint`, `GeoJsonLineString`, `GeoJsonPolygon`
+- **Enums**: `MapAssetType`, `AnimatableProperty`, `EasingType`, `TransitionType`
+- **Assets**: `AssetCategory`, `MapAsset`, request/response DTOs
+- **Timeline**: `Composition`, `BaseLayer`, `BaseSegment`, `OverlayLayer`
+- **Animation**: `LayerKeyframe`, `LayerTransition`

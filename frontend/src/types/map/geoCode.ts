@@ -1,0 +1,66 @@
+import { GeometryObject } from "./geoJSON";
+
+export interface GeoCodeFeature {
+  id: string;
+  place_id?: string;
+  osm_type?: string;
+  osm_id?: string;
+  osm_key?: string;
+  osm_value?: string;
+  type?: string;
+  label?: string;
+  name?: string;
+  country?: string;
+  country_code?: string;
+  housenumber?: string;
+  postcode?: string;
+  street?: string;
+  locality?: string;
+  district?: string;
+  city?: string;
+  county?: string;
+  state?: string;
+  properties?: Record<string, any>;
+  extra?: Record<string, any> & {
+    flag?: string;
+    square_km?: string;
+    timezone?: string;
+    wikidata?: string;
+    wikipedia?: string;
+    population?: string;
+    border_type?: string;
+    capital_city?: string;
+    driving_side?: string;
+    population_date?: string;
+    ISO3166_1_alpha2?: string;
+    ISO3166_1_alpha3?: string;
+    ISO3166_1_numeric?: string;
+    default_language?: string;
+    country_code_fips?: string;
+    check_date?: string;
+    disused_name?: string;
+    disused_shop?: boolean;
+    building_levels?: string;
+    ele: string;
+    capital?: string;
+    website?: string;
+    boundary?: string;
+    importance?: string;
+    is_capital?: string;
+    designation?: string;
+    wikimedia_commons?: string;
+    ref_gss?: string;
+    ref_nuts?: string;
+    council_name?: string;
+    place?: string;
+    nickname?: string;
+    ref_USCG?: string;
+    ref_USPS?: string;
+    timezone_note?: string;
+    source_population?: string;
+    source_short_name?: string;
+  };
+  geometry?: GeometryObject & {
+    center?: [number, number];
+  };
+}
