@@ -5,18 +5,11 @@ import {
   getFullscreenElement,
   getFullScreenRequestMethod,
 } from '@/lib/utils/fullscreen';
-import { MapManager } from '@/types/utiles';
-import {
-  createContext,
-  Ref,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-  type FC,
-  type PropsWithChildren,
-} from 'react';
+import { MapConfig, MapManager } from '@/types/utiles';
+import { createContext, Ref, useCallback, useEffect, useRef, useState, type FC, type PropsWithChildren } from 'react';
 import { useMapAssets } from './MapAssetContext';
+import { getProjectMapDefaults } from '@/lib/settingsApi';
+import { useProject } from './ProjectContext';
 
 //AppProvider on old project
 interface MapProjectContextType {
@@ -30,8 +23,11 @@ interface MapProjectContextType {
 const MapProjectContext = createContext<MapProjectContextType | undefined>(undefined);
 
 export const MapProjectProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
-  const {loadAssets} = useMapAssets();
-  
+  const { currentProject } = useProject();
+  const [mapConfig, setMapConfig] = useState<MapConfig>();
+
+  const { loadAssets } = useMapAssets();
+
   const appContainerElement = useRef<HTMLDivElement>(null);
   const mapElement = useRef<HTMLDivElement>(null);
 
@@ -87,6 +83,17 @@ export const MapProjectProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
       setMapManager(new MapLibreMapManager(mapElement.current));
     }
   }, [mapElement, isLayoutReady]);
+
+  useEffect(() => {
+    if (currentProject) {
+      const loadProjectMapDefaults = async () => {
+        const defaults = await getProjectMapDefaults(currentProject?.team_id, currentProject?.id);
+        setMapConfig(defaults);
+      };
+
+      loadProjectMapDefaults();
+    }
+  }, [currentProject]);
 
   return (
     <MapProjectContext.Provider value={{ isFullscreen: false, mapElement: { current: null } }}>
